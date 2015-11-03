@@ -21,11 +21,9 @@ def load_apikey():
 def hello_world():
     return render_template('index.html')
 
-@app.route('/upload')
+@app.route('/upload', methods=['GET'])
 def upload():
     return render_template('upload.html')
-
-
 
 def allowed_img_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_IMG_EXTENSIONS
@@ -66,10 +64,7 @@ def index(filename, title, text):
     r = requests.post('https://api.havenondemand.com/1/api/async/addtotextindex/v1/', params=params)
     status = wait_for_async_job(r)
 
-    
-
-
-@app.route('/doupload', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def do_upload():
     title = request.form['title']
     f = request.files['doc']
@@ -90,7 +85,7 @@ def do_upload():
 def query():
     return render_template('query_form.html')
 
-@app.route('/doquery', methods=['POST'])
+@app.route('/query', methods=['POST'])
 def doquery():
     apikey = load_apikey()
     querytext = request.form['querytext']
