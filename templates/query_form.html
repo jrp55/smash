@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block title %} - Query{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<form
+    method="post"
+    action="/doquery">
+    <div>
+        <label for="querytext">Query:</label>
+        <input id="querytext" type="text" name="querytext" required>
+    </div>
+    <input type="submit" value="Query">
+</form>
+{% endblock %}

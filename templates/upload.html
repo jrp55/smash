@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block title %} - Upload{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+<p>Upload a photo of your mail.<p>
+<p>Maximum upload size is 16MB.</p>
+    <form
+        enctype="multipart/form-cdata"
+        action="/doupload"
+        method="post">
+        <div>
+            <label for="title">Title:</label>
+            <input id="title" type="text" name="title" required>
+        </div>
+        <div>
+            <label for="file">File:</label>
+            <input id="file" type="file" name="doc" required>
+        </div>
+        <input type="submit" value="Upload" />
+    </form>
+{% endblock %}

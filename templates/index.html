@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <title>SMASH{% block title %}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <h1>SMASH</h1>
+        <div id="menu"><a href="/">Home</a> <a href="/upload">Upload</a> <a href="/query">Query</a></div>
+        <div id="content">
+            {% block content %}
+            <h2>The Snail Mail Archival and Search Helper</h2>
+            <p>If you hate storing and searching through physical mail, then this is the tool for you!</p>
+            <p>Simply hit <a href="/upload">upload</a> to upload a photo of your mail for processing, or <a href="/query">query</a> to query your processed mail</p>
+            <h2>Todo</h2>
+            <ul>
+                <li>Photo saving and retrieval</li>
+                <li>Dates: manual input, automatic detection, querying</li>
+                <li>Mail type categorisation and tagging</li>
+                <li>Accounts</li>
+                <li>Security</li>
+                <li>Web Design</li>
+            </ul>
+            {% endblock %}
+        </div>
+    </body>
+</html>
