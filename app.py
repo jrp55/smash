@@ -15,8 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 def load_apikey():
-    p = os.path.join(app.config['APIKEY_DIR'], HOD_APIKEY_FILENAME)
-    with open(p, 'r') as f:
+    with open(os.path.join(app.config['APIKEY_DIR'], HOD_APIKEY_FILENAME), 'r') as f:
         apikey = f.read()
     return apikey.rstrip("\n\r")
 
