@@ -1,3 +1,5 @@
+import argparse
+import sys
 import os
 import os.path
 import requests
@@ -7,13 +9,14 @@ from werkzeug import secure_filename
 
 ALLOWED_IMG_EXTENSIONS = set(['tiff', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'ico', 'pbm', 'pgm', 'ppm'])
 UPLOAD_FOLDER = '/tmp/smash/uploads'
-HOD_APIKEY_PATH = '/home/james/smash/hod.apikey'
+HOD_APIKEY_FILENAME = 'hod.apikey'
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 def load_apikey():
-    with open(HOD_APIKEY_PATH, 'r') as f:
+    p = os.path.join(app.config['APIKEY_DIR'], HOD_APIKEY_FILENAME)
+    with open(p, 'r') as f:
         apikey = f.read()
     return apikey.rstrip("\n\r")
 
@@ -94,5 +97,12 @@ def doquery():
     documents = [ {'title': d['title'], 'content': d['content']} for d in r.json()['documents'] ]
     return render_template('queryresults.html', documents=documents)
 
+def configure_app(args):
+    app.config['APIKEY_DIR'] = args.apikeydir
+
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Run SMASH')
+    parser.add_argument('--apikeydir', '-a', nargs=1, default='.apikeys')
+    args = parser.parse_args()
+    configure_app(args)
     app.run(host='0.0.0.0')
