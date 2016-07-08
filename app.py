@@ -82,6 +82,34 @@ def do_ocr(filepath):
                 texts.append(text_block['text'])
     return texts
 
+def does_index_exist(index_name):
+	"""
+	Checks whether a given index exists
+	:param index_name: The name of the index to check for
+	:returns: True if index exists, False otherwise
+	"""
+	apikey = load_apikey()
+	params = {'apikey': apikey}
+	r = requests.get('https://api.havenondemand.com/1/api/sync/listresources/v1', params=params)
+	for private_resource in r.json()['private_resources']:
+		if private_resource['resource'] == index_name:
+			return True
+	return False
+
+def create_index(index_name):
+	"""
+	Creates an index with the given name
+	:param index_name: The name of the index to create
+	"""
+	apikey = load_apikey()
+	params = {'apikey': apikey, 'index': index_name, 'flavor': 'explorer'}
+	r = requests.get('https://api.havenondemand.com/1/api/sync/createtextindex/v1', params=params)
+
+def check_smash_index():
+	smash_index_name = 'smashdata'
+	if not does_index_exist(smash_index_name):
+		create_index(smash_index_name)
+
 def index(filename, title, text):
     """
     Indexes a document into the HoD text index
@@ -151,4 +179,5 @@ if __name__ == '__main__':
     parser.add_argument('--apikeydir', '-a', nargs=1, default='.apikeys')
     args = parser.parse_args()
     configure_app(args)
+	check_smash_index()
     app.run(host='0.0.0.0')
